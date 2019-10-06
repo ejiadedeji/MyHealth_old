@@ -1,6 +1,7 @@
 package com.example.myhealth;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -42,11 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 int day = c.get(Calendar.DAY_OF_MONTH);
                 int month = c.get(Calendar.MONTH);
                 int year = c.get(Calendar.YEAR);
-
                 DatePickerDialog dpd = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
-                      txtDateOfBirth.setText(mMonth + "/" + mDay + "/" + mYear);
+                      txtDateOfBirth.setText(mMonth + 1 + "/" + mDay + "/" + mYear);
                     }
                 }, year, month, day);
                 dpd.show();
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 Spinner spnGender = findViewById(R.id.spnGender);
                 txtEmailAddress.setError("hi");
 
+                moveToDetails();
             }
         });
 
@@ -74,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void moveToDetails(){
+        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        startActivity (intent);
     }
 
 

@@ -6,4 +6,15 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+
+
+    <string-array name="unitHeight">
+        <item>m</item>
+        <item>fts</item>
+    </string-array>
+
+    <string-array name="unitWeight">
+        <item>kg</item>
+        <item>Lbs</item>
+    </string-array>
 </resources>
