@@ -1,7 +1,5 @@
 package com.example.myhealth;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.view.View;
 import android.widget.Button;
@@ -10,10 +8,8 @@ import android.widget.EditText;
 import android.widget.Spinner;;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-
-
-
 import java.util.Calendar;
+
 
 public class MainActivity extends AppCompatActivity {
     EditText txtDateOfBirth;
@@ -31,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         btnDateOfBirth = findViewById(R.id.btnDateOfBirth);
         btnNext = findViewById(R.id.btnNext);
 
-
         Spinner genderSpinner = findViewById(R.id.spnGender);
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>
                 (MainActivity.this, android.R.layout.simple_list_item_1, getResources()
@@ -39,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         myAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         genderSpinner.setAdapter(myAdapter);
-
 
         btnDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,19 +60,15 @@ public class MainActivity extends AppCompatActivity {
                 EditText txtLastName = findViewById(R.id.txtFirstName);
                 EditText txtEmailAddress = findViewById(R.id.txtEmailAddress);
                 Spinner spnGender = findViewById(R.id.spnGender);
-
-
                 txtEmailAddress.setError("hi");
 
             }
         });
 
-
         txtDateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (android.util.Patterns.EMAIL_ADDRESS.matcher(txtDateOfBirth.getText().toString()).matches()==false){
-
                     txtDateOfBirth.setError("Invalid Date of Birth");
                 }
             }
