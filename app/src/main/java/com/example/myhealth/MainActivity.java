@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         btnDateOfBirth = findViewById(R.id.btnDateOfBirth);
         btnNext = findViewById(R.id.btnNext);
 
+
         Spinner genderSpinner = findViewById(R.id.spnGender);
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>
                 (MainActivity.this, android.R.layout.simple_list_item_1, getResources()
@@ -58,20 +59,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-//        btnNext.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MainActivity.
-//            }
-//        });
-
-
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText txtFirstName = findViewById(R.id.txtFirstName);
+                EditText txtLastName = findViewById(R.id.txtFirstName);
+                EditText txtEmailAddress = findViewById(R.id.txtEmailAddress);
+                Spinner spnGender = findViewById(R.id.spnGender);
 
 
+                txtEmailAddress.setError("hi");
+
+            }
+        });
 
 
+        txtDateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (android.util.Patterns.EMAIL_ADDRESS.matcher(txtDateOfBirth.getText().toString()).matches()==false){
 
+                    txtDateOfBirth.setError("Invalid Date of Birth");
+                }
+            }
+        });
 
     }
 
