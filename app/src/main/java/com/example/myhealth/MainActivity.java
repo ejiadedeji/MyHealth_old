@@ -9,11 +9,15 @@ import android.widget.EditText;
 import android.widget.Spinner;;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class MainActivity extends AppCompatActivity {
-    EditText txtDateOfBirth;
+    TextView txtDateOfBirth;
     Button btnDateOfBirth;
     Calendar c;
     Button btnNext;
@@ -57,25 +61,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText txtFirstName = findViewById(R.id.txtFirstName);
-                EditText txtLastName = findViewById(R.id.txtFirstName);
+                EditText txtLastName = findViewById(R.id.txtLastName);
                 EditText txtEmailAddress = findViewById(R.id.txtEmailAddress);
                 Spinner spnGender = findViewById(R.id.spnGender);
-                txtEmailAddress.setError("hi");
-
-                moveToDetails();
-            }
-        });
-
-        txtDateOfBirth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (android.util.Patterns.EMAIL_ADDRESS.matcher(txtDateOfBirth.getText().toString()).matches()==false){
-                    txtDateOfBirth.setError("Invalid Date of Birth");
+                TextView txtError = findViewById(R.id.txtError);
+                if (!txtFirstName.getText().toString().matches("") && !txtLastName.getText().toString().matches("") && !txtEmailAddress.getText().toString().matches("") && !txtDateOfBirth.getText().toString().matches("") && !spnGender.getSelectedItem().toString().matches("Gender") && isEmailValid(txtEmailAddress.getText().toString()))  {
+                    moveToDetails();
                 }
+                else{
+                    txtError.setText("input Error");
+                }
+
             }
         });
-
-
     }
 
     private void moveToDetails(){
@@ -83,5 +81,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity (intent);
     }
 
+    public static boolean isEmailValid(String email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 
 }
