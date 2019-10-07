@@ -2,6 +2,7 @@ package com.example.myhealth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -25,14 +26,13 @@ public class DetailsActivity extends AppCompatActivity {
 
         txtWeight = findViewById(R.id.txtWeight);
         txtHeight = findViewById(R.id.txtHeight);
-        txtBMI = findViewById(R.id.txtBMI);
+        txtBMI = findViewById(R.id.txtBMIResult);
         btnCalculateBMI = findViewById(R.id.btnCalculateBMI);
 
         spnHeightUnit = findViewById(R.id.spnHeightUnit);
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>
                 (DetailsActivity.this, android.R.layout.simple_list_item_1, getResources()
                         .getStringArray(R.array.unitHeight));
-
         myAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         spnHeightUnit.setAdapter(myAdapter);
 
@@ -48,38 +48,53 @@ public class DetailsActivity extends AppCompatActivity {
         btnCalculateBMI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double height = Double.parseDouble(txtHeight.getText().toString());
-                double weight = Double.parseDouble(txtWeight.getText().toString());
-                String heightUnit = spnHeightUnit.getSelectedItem().toString();
-                String weightUnit = spnWeightUnit.getSelectedItem().toString();
-                txtBMI.setText(getBMI(height, heightUnit, weight, weightUnit));
+                double height = 0;
+                double weight = 0;
+                if (spnHeightUnit.getSelectedItem().toString().matches("m")) {
+                    height = Double.parseDouble(txtHeight.getText().toString());
+                }
+                if (spnHeightUnit.getSelectedItem().toString().matches("fts")) {
+                    height = Double.parseDouble(txtHeight.getText().toString()) * 0.3048;
+                }
+
+                if (spnWeightUnit.getSelectedItem().toString().matches("kg")) {
+                    weight = Double.parseDouble(txtWeight.getText().toString());
+                }
+                if (spnWeightUnit.getSelectedItem().toString().matches("Lbs")) {
+
+                    weight = Double.parseDouble(txtWeight.getText().toString()) * 0.453592;
+                }
+                txtBMI.setText(getBMI(height, weight)[1]);
+
+
+                Intent intent = new Intent(DetailsActivity.this, ResultActivity.class);
+                intent.putExtra("BMI", getBMI(height, weight));
+                startActivity (intent);
             }
         });
 
     }
 
-    private String getBMI(double height, String heightUnit, double weight, String weightUnit){
-        double mHeight = height;
-        double mWeight = weight;
-
-        if (heightUnit == "m"){
-            mHeight = height;
-        }
-
-        if (heightUnit == "fts"){
-            mHeight = height * 0.3048;
-        }
-
-        if (weightUnit == "kg"){
-            mWeight = weight;
-        }
-
-        if (weightUnit == "Lbs"){
-            mWeight = weight * 0.3048;
-        }
-
-        String bmi = Double.toString(mWeight/(mHeight * mHeight));
-
+    private String[] getBMI(double height, double weight){
+        double result = weight/(height * height);
+        String[] bmi = new String[2];
+        bmi[0] = String.format("%.2f", result);
+        bmi[1] = getBMIDescription(result);
         return bmi;
+
+    }
+
+    private String getBMIDescription(double bmi){
+        String desc;
+        if (bmi <= 18){
+            return "Underweight";
+        }
+
+        if (bmi >= 30){
+            return "Overweight";
+        }
+
+        return "Normal BMI";
+
     }
 }

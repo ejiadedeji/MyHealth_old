@@ -24,30 +24,31 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="Weight"
         android:numeric="decimal"
         app:layout_constraintBottom_toTopOf="@+id/txtHeight"
-        app:layout_constraintEnd_toStartOf="@+id/spnHeightUnit"
+        app:layout_constraintEnd_toStartOf="@+id/spnHightUnit"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.797" />
 
     <Spinner
-        android:id="@+id/spnHeightUnit"
+        android:id="@+id/spnWeightUnit"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/spnWeightUnit"
+        app:layout_constraintBottom_toTopOf="@+id/spnHeightUnit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.797" />
 
     <Spinner
-        android:id="@+id/spnWeightUnit"
+        android:id="@+id/spnHeightUnit"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginEnd="32dp"
@@ -60,12 +61,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="12dp"
         android:ems="10"
         android:hint="Height"
         android:numeric="decimal"
         app:layout_constraintBottom_toTopOf="@+id/btnCalculateBMI"
-        app:layout_constraintEnd_toStartOf="@+id/spnWeightUnit"
+        app:layout_constraintEnd_toStartOf="@+id/spnHightUnit"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -77,13 +79,13 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:text="@android:string/cancel"
-        app:layout_constraintBottom_toTopOf="@+id/txtBMI"
+        app:layout_constraintBottom_toTopOf="@+id/txtBMIResult"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/txtBMI"
+        android:id="@+id/txtBMIResult"
         android:layout_width="320dp"
         android:layout_height="199dp"
         android:layout_marginStart="32dp"
