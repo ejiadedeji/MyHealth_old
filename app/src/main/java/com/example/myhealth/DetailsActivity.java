@@ -1,23 +1,17 @@
 package com.example.myhealth;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 public class DetailsActivity extends AppCompatActivity {
     EditText txtWeight;
     EditText txtHeight;
-    TextView txtBMI;
     Button btnCalculateBMI;
-    Spinner spnHeightUnit;
-    Spinner spnWeightUnit;
+    TextView txtBMIResult;
+    TextView txtBMIResultDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,75 +20,49 @@ public class DetailsActivity extends AppCompatActivity {
 
         txtWeight = findViewById(R.id.txtWeight);
         txtHeight = findViewById(R.id.txtHeight);
-        txtBMI = findViewById(R.id.txtBMIResult);
+
         btnCalculateBMI = findViewById(R.id.btnCalculateBMI);
+        txtBMIResult = findViewById(R.id.txtBMIResult);
+        txtBMIResultDesc = findViewById(R.id.txtBMIResultDesc);
 
-        spnHeightUnit = findViewById(R.id.spnHeightUnit);
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>
-                (DetailsActivity.this, android.R.layout.simple_list_item_1, getResources()
-                        .getStringArray(R.array.unitHeight));
-        myAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        spnHeightUnit.setAdapter(myAdapter);
-
-
-        spnWeightUnit = findViewById(R.id.spnWeightUnit);
-        ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>
-                (DetailsActivity.this, android.R.layout.simple_list_item_1, getResources()
-                        .getStringArray(R.array.unitWeight));
-        myAdapter2.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        spnWeightUnit.setAdapter(myAdapter2);
 
 
         btnCalculateBMI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double height = 0;
-                double weight = 0;
-                if (spnHeightUnit.getSelectedItem().toString().matches("m")) {
-                    height = Double.parseDouble(txtHeight.getText().toString());
-                }
-                if (spnHeightUnit.getSelectedItem().toString().matches("fts")) {
-                    height = Double.parseDouble(txtHeight.getText().toString()) * 0.3048;
-                }
-
-                if (spnWeightUnit.getSelectedItem().toString().matches("kg")) {
-                    weight = Double.parseDouble(txtWeight.getText().toString());
-                }
-                if (spnWeightUnit.getSelectedItem().toString().matches("Lbs")) {
-
-                    weight = Double.parseDouble(txtWeight.getText().toString()) * 0.453592;
-                }
-                txtBMI.setText(getBMI(height, weight)[1]);
-
-
-                Intent intent = new Intent(DetailsActivity.this, ResultActivity.class);
-                intent.putExtra("BMI", getBMI(height, weight));
-                startActivity (intent);
+                double height = Double.parseDouble(txtHeight.getText().toString());
+                double weight = Double.parseDouble(txtWeight.getText().toString());
+                txtBMIResult.setText(getBMI(height, weight)[0]);
+                txtBMIResultDesc.setText(getBMI(height, weight)[1]);
             }
         });
-
     }
 
     private String[] getBMI(double height, double weight){
-        double result = weight/(height * height);
-        String[] bmi = new String[2];
-        bmi[0] = String.format("%.2f", result);
-        bmi[1] = getBMIDescription(result);
-        return bmi;
+
+        try {
+            double result = weight / (height * height);
+            String[] bmi = new String[2];
+            bmi[0] = String.format("%.2f", result);
+            bmi[1] = getBMIDescription(result);
+            return bmi;
+        }
+        catch(Exception e) {
+            return new String[]{"error", "error"};
+        }
 
     }
 
     private String getBMIDescription(double bmi){
-        String desc;
-        if (bmi <= 18){
-            return "Underweight";
+        if (bmi >= 29.9){
+            return "Obese";
         }
-
-        if (bmi >= 30){
+        if (bmi >= 24.9){
             return "Overweight";
         }
-
-        return "Normal BMI";
-
+        if (bmi >= 18.5){
+            return "Normal BMI";
+        }
+        return "Underweight";
     }
 }
